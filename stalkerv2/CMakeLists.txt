@@ -8,15 +8,21 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rclcpp_lifecycle REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(vision_msgs REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
+find_package(lifecycle_msgs REQUIRED)
 
 set(dependencies
   rclcpp
+  rclcpp_lifecycle
   geometry_msgs
   vision_msgs
-  # tf2_ros
-  # tf2_geometry_msgs
+  tf2_ros
+  tf2_geometry_msgs
+  lifecycle_msgs
   # OpenCV
   # sensor_msgs
   # image_geometry
@@ -30,6 +36,7 @@ include_directories(include)
 
 add_library(${PROJECT_NAME} SHARED
   src/stalkerv2/PersonFollower.cpp
+  src/stalkerv2/PIDController.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 

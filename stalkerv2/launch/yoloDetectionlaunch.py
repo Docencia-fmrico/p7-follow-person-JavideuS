@@ -5,7 +5,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     """Generate launch description for yolo detection node."""
     input_topic = '/yolo/detections'
-    output_topic = '/2d_yolo_detections'
+    output_topic = '/yolo_detections_2d'
     
     return LaunchDescription([
         Node(
