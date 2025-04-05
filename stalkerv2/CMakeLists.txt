@@ -23,13 +23,6 @@ set(dependencies
   tf2_ros
   tf2_geometry_msgs
   lifecycle_msgs
-  # OpenCV
-  # sensor_msgs
-  # image_geometry
-  # cv_bridge
-  # image_transport
-  # depth_image_proc
-  # sensor_msgs
 )
 
 include_directories(include)

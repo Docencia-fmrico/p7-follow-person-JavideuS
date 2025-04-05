@@ -99,7 +99,8 @@ CallbackReturn PersonFollower::on_error(const rclcpp_lifecycle::State & previous
 
 void PersonFollower::timer_callback(){
     geometry_msgs::msg::Twist msg;
-		if(!attractive_pose_.has_value()){
+		if(!attractive_pose_.has_value() ||
+		(this->now() - last_detection_time_).seconds() > TIMEOUT){
 				RCLCPP_INFO(get_logger(), "No target detected, looking around");
 				msg.linear.x = 0;
 				msg.angular.z = 0.5; //To keep looking around
@@ -202,13 +203,18 @@ void PersonFollower::attractive_callback(const vision_msgs::msg::Detection3DArra
 	}
 	//else
 	if(!msg->detections.empty()) {
-		RCLCPP_INFO(get_logger(), "Detection at: 'x: %f' 'y: %f' 'z: %f'",
-					msg->detections[0].bbox.center.position.x,
-					msg->detections[0].bbox.center.position.y,
-					msg->detections[0].bbox.center.position.z);
-	
-		attractive_pose_ = msg->detections[0].bbox.center;
-		last_detection_time_ = this->now();
+		for(auto detections : msg->detections) {
+			if(detections.results[0].hypothesis.class_id == "person") {
+				RCLCPP_INFO(get_logger(), "Detection at: 'x: %f' 'y: %f' 'z: %f'",
+							detections.bbox.center.position.x,
+							detections.bbox.center.position.y,
+							detections.bbox.center.position.z);
+				attractive_pose_ = detections.bbox.center;
+				RCLCPP_INFO(get_logger(), "Person detected %s", detections.results[0].hypothesis.class_id.c_str());
+				last_detection_time_ = this->now();
+				break; // Exit the loop after finding the first person
+			}
+		}
 	  } else {
 		RCLCPP_INFO(get_logger(), "No target detected");
 		attractive_pose_.reset(); // Set to empty
