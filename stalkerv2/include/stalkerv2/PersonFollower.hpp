@@ -47,8 +47,8 @@ private:
   rclcpp::Time last_detection_time_;
   rclcpp::Time last_obstacle_time_;
   
-  constexpr static double TIMEOUT = 0.5;   // seconds
-  constexpr static double OBSTACLE_TIMEOUT = 0.5;   // seconds
+  constexpr static double TIMEOUT = 0.3;   // seconds
+  constexpr static double OBSTACLE_TIMEOUT = 0.3;   // seconds
   constexpr static double OBSTACLE_THRESHOLD = 1.0;   // meters
   PIDController vlin_pid_, vrot_pid_;
 

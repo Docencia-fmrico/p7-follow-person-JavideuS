@@ -7,8 +7,7 @@ from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def generate_launch_description():
-    """Generate launch description for YOLOv8 node."""
-    
+    """Generate launch description for YOLOv8 node."""  
     pkg_dir = get_package_share_directory('stalkerv2')
     model_path = os.path.join(pkg_dir, 'models')
     
@@ -21,7 +20,7 @@ def generate_launch_description():
     
     model_arg = DeclareLaunchArgument(
         'model',
-        default_value=model_path + '/yolov8m-seg.pt',
+        default_value=model_path + '/yolov8m-pose.pt',
         description='Model to use'
     )
     
@@ -35,7 +34,8 @@ def generate_launch_description():
     
     # Use PythonExpression for model selection - now with proper quotes
     model_file = PythonExpression([
-        "'" + model_path + "/yolov8m.pt' if '", LaunchConfiguration('model'), "' == 'v8' else '",
+        "'" + model_path + "/yolov8m.pt' if '", LaunchConfiguration('model'), "' == 'v8' else ",
+        "'" + model_path + "/yolov8m-seg.pt' if '", LaunchConfiguration('model'), "' == 'seg' else '",
         LaunchConfiguration('model'), "'"
     ])
     

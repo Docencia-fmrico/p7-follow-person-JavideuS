@@ -13,5 +13,20 @@ Implementa una aplicación ROS 2 que siga a una persona a un metro:
 3. Haz que cuando no vea a una persona, la busque.
 4. Una vez encontrada, usa un PID para aproximarse a la TF que haya producido la detección de la persona.
 
+## Usage:
+
+```bash
+ros2 run stalkerv2 follower
+```
+
+Then in other terminal
+```bash
+ros2 lifecycle set /person_follower configure
+ros2 lifecycle set /person_follower activate
+ros2 lifecycle set /person_follower deactivate #To stop the robot on action
+ros2 lifecycle set /person_follower cleanup #To reset attributes
+ros2 lifecycle set /person_follower shutdown #To stop the node
+```
+
 
    
