@@ -39,20 +39,19 @@ private:
   rclcpp::Subscription<vision_msgs::msg::Detection3DArray>::SharedPtr attractive_sub_;
   void attractive_callback(const vision_msgs::msg::Detection3DArray::SharedPtr msg);
   std::optional<geometry_msgs::msg::Pose> attractive_pose_;
-  
+
   rclcpp::Subscription<geometry_msgs::msg::Vector3>::SharedPtr repulsive_sub_;
   void repulsive_callback(const geometry_msgs::msg::Vector3::SharedPtr msg);
   std::optional<geometry_msgs::msg::Vector3> repulsive_vector_;
 
   rclcpp::Time last_detection_time_;
   rclcpp::Time last_obstacle_time_;
-  
+
   constexpr static double TIMEOUT = 0.3;   // seconds
   constexpr static double OBSTACLE_TIMEOUT = 0.3;   // seconds
   constexpr static double OBSTACLE_THRESHOLD = 1.0;   // meters
   PIDController vlin_pid_, vrot_pid_;
 
-  
 
 };
 
